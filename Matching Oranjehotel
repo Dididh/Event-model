@@ -1,0 +1,22 @@
+#identifying names from oranjehotel
+#read two files df1 df2
+import pandas as pd
+import numpy as np
+
+df1 = pd.read_csv('basis_vocab_oranjehotel.csv', sep=';')
+df1
+df2 = pd.read_csv('basis_vocab_ob_erelijst.csv', sep=';')
+df2
+
+#if you same date of birth, and place of birth is not empty and place of birth matches
+for i in range(len(df1)):
+    for j in range(len(df2)):
+        if df1['geboortedatum'][i] == df2['geboortedatum'][j]:
+            if df2['geboorteplaats'][j] != "" :
+                if df1['geboorteplaats'][i] == df2['geboorteplaats'][j]:
+                    print(df1.loc[i]).to_csv('oranjehotelduplicate1.csv')
+            else:
+                print(df1.loc[i]).to_csv('oranjehotelduplicate2.csv')
+#take row from df1 put it in new dataframe (add extra metadatafield)
+
+#return or break
