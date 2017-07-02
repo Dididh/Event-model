@@ -1,0 +1,32 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('basis_vocab.csv', sep=';', na_values=['NaN'])
+df
+df.dropna(subset = ['geboortedatum', 'sterfdatum'])
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('basisvocabcleaned.csv', sep=',', dtype={"naam": object, "geboorteplaats": object, "echtgenoot": object})
+df.drop_duplicates(['naam', 'geboortedatum', 'sterfdatum', 'leeftijd', 'functie'], keep=False).to_csv('basicvocabwithdoub.csv')
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('basicvocabwithdoub.csv', sep=',', dtype={"naam": object, "geboorteplaats": object, "echtgenoot": object})
+df.drop_duplicates(['naam', 'geboortedatum', 'sterfdatum', 'geboorteplaats', 'functie'], keep=False).to_csv('FINALbasicvocabwithdoub.csv')
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('FINALbasicvocabwithdoub.csv', sep=',', dtype={"naam": object, "geboorteplaats": object, "echtgenoot": object})
+df
+df[df.duplicated(['geboortedatum', 'sterfdatum'], keep=False)].to_csv('double_dateofbirthdeath.csv')
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('FINALbasicvocabwithdoub.csv', sep=',', dtype={"naam": object, "geboorteplaats": object, "echtgenoot": object})
+df
+df.drop_duplicates(['geboortedatum', 'sterfdatum'], keep=False).to_csv('basicvocab(nodoub).csv')
