@@ -1,5 +1,4 @@
 # Event-model
-Event model (thesis)
 
 Github with all data used in thesis of Didi & Jessie
 
