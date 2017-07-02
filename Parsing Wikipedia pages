@@ -1,0 +1,60 @@
+import wikipedia
+import csv
+import codecs
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+# set up from the beginning the language of the wiki pages
+wikipedia.set_lang('nl')
+
+
+def parseWikiPage(wikiPageLink, wikiPageIndex):
+	# now we can process this wiki page
+	# we need only the name of the article in which we replace every "_" character with a space " "
+	wikiPageName = wikiPageLink.split('/')[-1]
+	wikiPageNameToSearch = wikiPageName.replace('_', ' ')
+
+	# get the content of the wiki page
+	wikiPage = wikipedia.page(wikiPageNameToSearch)
+
+	# get the title of the wiki page
+	title = wikiPage.title
+
+	# get the entire content of the page 
+	content = wikiPage.content
+	paragraphs = content.split('\n')
+
+	#create a csv file for each such wiki link where we store the content
+	outputFileName = wikiPageNameToSearch + '.csv'
+	lineCount = 0
+	with codecs.open(outputFileName,'w',encoding='utf8') as csvfile:
+		fieldnames = ['Page Index', 'URL', 'Section Index', 'Section']
+		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+		writer.writeheader()
+	   
+		for section in paragraphs:
+			if section == '== Externe links ==':
+				break
+
+			elif section != '':
+				# it means it's not empty, so we want to print it
+				lineCount = lineCount + 1
+				writer.writerow({'Page Index':wikiPageIndex, 'URL':wikiPageLink, 'Section Index': lineCount, 'Section':section})
+
+	print(paragraphs)
+
+	return paragraphs
+
+
+# open and read from a csv file that contains the URLs of the Wikipedia pages
+# the CSV file needs to contain a column called "URL" that contains the actual link to the wiki pages
+with codecs.open('WikipediapagesformattedUPDATE.csv','r',encoding='utf8') as csvfile:
+    reader = csv.DictReader(csvfile)
+	# go through each line in the csv
+    for row in reader:
+		# extract the Wikipedia link 
+		wikiPageLink = row['URL']
+		print(wikiPageLink)
+
+		parseWikiPage(wikiPageLink, row['Index'])
