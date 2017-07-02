@@ -8,3 +8,4 @@ This includes:
 - Python script to match records in Oranjehotel with Erelijst en Online begraafplaatsen
 - Final person vocabulary
 - List of Wikipedia pages
+- 100 rows selected for Crowdsourcing tasks
